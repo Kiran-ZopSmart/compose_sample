@@ -15,4 +15,3 @@ data class PokemonErrorState(
     val isErrorState: Boolean,
     val errorString: String,
 )
-

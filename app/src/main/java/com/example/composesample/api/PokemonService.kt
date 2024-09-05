@@ -3,6 +3,7 @@ package com.example.composesample.api
 import com.example.composesample.model.PokemonInfo
 import com.example.composesample.model.PokemonListResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 import javax.inject.Inject
@@ -13,6 +14,8 @@ class PokemonService @Inject constructor(private val apiService: ApiService) {
         return flow {
             val response = apiService.getPokemonList()
             emit(handleResponse(response))
+        }.catch { error ->
+            emit(PokemonResponse.Error(error.message.orEmpty()))
         }
     }
 

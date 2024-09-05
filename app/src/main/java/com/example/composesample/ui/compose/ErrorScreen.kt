@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composesample.handler.OnRetry
 
@@ -21,11 +22,11 @@ fun ErrorScreen(
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "Something went wrong",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.headlineSmall,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 20.dp)
         )
@@ -36,4 +37,10 @@ fun ErrorScreen(
             Text("Retry")
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Preview() {
+    ErrorScreen(onRetry = OnRetry())
 }
