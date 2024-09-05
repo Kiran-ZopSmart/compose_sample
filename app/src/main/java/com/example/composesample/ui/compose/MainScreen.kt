@@ -50,7 +50,7 @@ internal fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
             state = state,
             onRetry = OnRetry(
                 retry = {
-                    viewModel.fetchPokemonData()
+                    viewModel.retryFetchingPokemonData()
                 }
             ),
             modifier = Modifier.padding(innerPadding)

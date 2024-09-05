@@ -40,6 +40,41 @@ class MainViewModel @Inject constructor(private val pokemonRepository: PokemonRe
         )
     }
 
+    /**
+     * Retries fetching user data in case of a previous failure.
+     */
+    fun retryFetchingPokemonData() = viewModelScope.launch {
+        val currentState = _pokemonList.value
+        if (currentState is PokemonViewState.PokemonView) {
+            updateUiState(
+                currentState.copy(
+                    isLoading = true
+                )
+            )
+            when (val result = pokemonRepository.getPokemonList().first()) {
+                is PokemonResponse.Success -> {
+                    updateUiState(
+                        currentState.copy(
+                            pokemonInfo = result.pokemonList,
+                            errorState = PokemonErrorState(isErrorState = false, errorString = "")
+                        )
+                    )
+                }
+
+                is PokemonResponse.Error -> {
+                    updateUiState(
+                        currentState.copy(
+                            errorState = PokemonErrorState(
+                                isErrorState = true,
+                                errorString = result.errorMessage
+                            )
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private fun updateUiState(newState: PokemonViewState) {
         _pokemonList.update { newState }
     }
